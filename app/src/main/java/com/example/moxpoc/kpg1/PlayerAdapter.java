@@ -24,13 +24,12 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
     }
 
     private class ViewHolder{
-        final Button addButton, lockButton;
-        final EditText firstNameView, secondNameView;
+        final Button delButton;
+        final TextView firstNameView, secondNameView;
         ViewHolder(View view){
-            addButton = (Button)view.findViewById(R.id.addButton);
-            lockButton = (Button)view.findViewById(R.id.lockButton);
-            firstNameView = (EditText) view.findViewById(R.id.firstNameView);
-            secondNameView = (EditText)view.findViewById(R.id.secondNameView);
+            delButton = (Button)view.findViewById(R.id.delButton);
+            firstNameView = (TextView) view.findViewById(R.id.firstNameView);
+            secondNameView = (TextView) view.findViewById(R.id.secondNameView);
         }
     }
 
@@ -46,23 +45,16 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
             viewHolder = (ViewHolder)convertView.getTag();
         }
         final Player player = playerList.get(position);
-        final boolean check = viewHolder.firstNameView.getDefaultFocusHighlightEnabled();
         viewHolder.firstNameView.setText(player.getFirstName());
         viewHolder.secondNameView.setText(player.getSecondName());
 
-        viewHolder.lockButton.setOnClickListener(new View.OnClickListener(){
+        viewHolder.delButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-               if (check == true){
-                   viewHolder.firstNameView.setEnabled(false);
-                   viewHolder.secondNameView.setEnabled(false);
-               }
-               else {
-                   viewHolder.firstNameView.setEnabled(true);
-                   viewHolder.secondNameView.setEnabled(true);
-               }
-               }
+            public void onClick(View v) {
+                playerList.remove(player);
+                notifyDataSetChanged();
             }
         });
+        return convertView;
     }
 }
