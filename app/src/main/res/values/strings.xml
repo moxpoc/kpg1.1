@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">kpg1</string>
+    <string name="lock">Lock</string>
+    <string name="unlock">Unlock</string>
+    <string name="addplayer">Add player</string>
+    <string name="shuffle">Shuffle</string>
 </resources>

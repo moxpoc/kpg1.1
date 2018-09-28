@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class PlayerAdapter extends ArrayAdapter<Player> {
-    private LayoutInflater inlater;
+    private LayoutInflater inflater;
     private int layout;
     private ArrayList<Player> playerList;
 
@@ -20,7 +20,7 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
         super(context,resource,players);
         this.playerList = players;
         this.layout = resource;
-        this.inlater = LayoutInflater.from(context);
+        this.inflater = LayoutInflater.from(context);
     }
 
     private class ViewHolder{
@@ -37,7 +37,7 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
 
         final ViewHolder viewHolder;
         if(convertView == null){
-            convertView = inlater.inflate(this.layout, parent, false);
+            convertView = inflater.inflate(this.layout, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         }
