@@ -1,6 +1,7 @@
 package com.example.moxpoc.kpg1;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     ListView playerList;
     ArrayList<Player> shuffleList;
     int pos;
+    boolean tmblr = true;
+    SharedPreferences sPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         final Button addBtn = (Button)findViewById(R.id.addBtn);
         final Button lockBtn = (Button)findViewById(R.id.lockBtn);
         playerList = (ListView)findViewById(R.id.playerList);
-        final String addtext = getResources().getString(R.string.addplayer);
         final PlayerAdapter adapter = new PlayerAdapter(this, R.layout.list_item, players);
         playerList.setAdapter(adapter);
         players.add(new Player("1","1"));
@@ -43,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(addBtn.getText() == addtext) {
                     if (firstName.getText().length() != 0 || secondName.getText().length() != 0) {
                         players.add(new Player(firstName.getText().toString(), secondName.getText().toString()));
                     }
@@ -51,32 +52,19 @@ public class MainActivity extends AppCompatActivity {
                     firstName.setText(null);
                     secondName.setText(null);
                     firstName.requestFocus();
-                }
-                if (addBtn.getText()==getResources().getString(R.string.shuffle));
-                {
-                    shuffleList = fisherArray(players);
-                    addBtn.setClickable(false);
-                }
+
+
             }
         });
 
         lockBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (lockBtn.getText().toString() == "Lock")
-                {
-                    addBtn.setText("Shuffle");
-                    addBtn.setClickable(true);
-                    lockBtn.setText(R.string.unlock);
-                }
-                if (lockBtn.getText() == "Unlock")
-                {
-                    addBtn.setText("Add player");
-                    addBtn.setClickable(true);
-                    lockBtn.setText(R.string.lock);
-                }
+                ShuffleDialog dialog = new ShuffleDialog();
+                dialog.show(getFragmentManager(), "lock");
             }
         });
+
 
         playerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -84,18 +72,17 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(ACTION);
                 intent.putExtra("obj", shuffleList.get(position));
                 startActivity(intent);
-                /*Player tmp;
-                tmp = shuffleList.get(position);
-                String name = tmp.getFirstName();
-                String family = tmp.getSecondName();
-                intent.putExtra("fName", name);
-                intent.putExtra("sName", family);*/
-
             }
         });
 
     }
 
+
+    public void okClicked(){
+        shuffleList = fisherArray(players);
+        EditText fn = (EditText)findViewById(R.id.firstName);
+        fn.setVisibility(View.INVISIBLE);
+    }
     static ArrayList fisherArray(ArrayList array){
         Random rnd = new Random();
         for(int i = array.size()-1; i>=1; i-- )
@@ -115,6 +102,12 @@ public class MainActivity extends AppCompatActivity {
         }
         //array.set(array.size(), array.get(0));
         return array;
+    }
+
+    void saveData(){
+        sPref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor ed = sPref.edit();
+        
     }
 
 
