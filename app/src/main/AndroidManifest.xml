@@ -11,17 +11,40 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
+                <action android:name="android.intent.action.START_MAIN_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".TargetActivity">
+            <intent-filter>
+                <action android:name="com.moxpoc.action.START_TARGET_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".StartScreenActivity">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TargetActivity">
+        <activity android:name=".CreateGameActivity">
             <intent-filter>
-                <action android:name="com.moxpoc.START_TARGET_ACTIVITY"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.START_CREATE_GAME_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".MyGamesActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.START_MY_GAMES_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".in_table_players"></activity>
     </application>
 
 </manifest>

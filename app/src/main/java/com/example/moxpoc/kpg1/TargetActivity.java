@@ -13,10 +13,14 @@ public class TargetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_target);
         Bundle arguments = getIntent().getExtras();
-        final Player player;
-        TextView targetName = (TextView)findViewById(R.id.targetName);
+        String table = arguments.getString("table");
+        DatabaseAdapter dbAdapter = new DatabaseAdapter(this, table);
+        dbAdapter.open();
+        Player player;
+        TextView targetName = findViewById(R.id.targetName);
         //String target = arguments.get("fName").toString() + " " + arguments.get("sName").toString();
-        player = arguments.getParcelable("obj");
-        targetName.setText(player.getFirstName() + " " + player.getSecondName());
+        player = dbAdapter.getTarget((arguments.getInt("position")+1));
+        targetName.setText(player.toString());
+        dbAdapter.close();
     }
 }

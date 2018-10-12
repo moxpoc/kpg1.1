@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -18,40 +19,56 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     final static String nameVariableKey = "NAME_VARIABLE";
-    public static final String ACTION = "com.moxpoc.START_TARGET_ACTIVITY";
-    ArrayList<Player> players = new ArrayList();
+    public static final String ACTION = "com.moxpoc.action.START_TARGET_ACTIVITY";
+    List<Player> players;
     ListView playerList;
-    ArrayList<Player> shuffleList;
-    int pos;
+    List<Player> shuffleList;
+    ArrayAdapter<Player> adapter;
+
+    EditText firstName, secondName;
+    Button addBtn,lockBtn;
+
+    private DatabaseAdapter dbAdapter;
+    int pos = 0;
     boolean tmblr = true;
+    String table;
     SharedPreferences sPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final EditText firstName = (EditText)findViewById(R.id.firstName);
-        final EditText secondName = (EditText)findViewById(R.id.secondName);
-        final Button addBtn = (Button)findViewById(R.id.addBtn);
-        final Button lockBtn = (Button)findViewById(R.id.lockBtn);
-        playerList = (ListView)findViewById(R.id.playerList);
-        final PlayerAdapter adapter = new PlayerAdapter(this, R.layout.list_item, players);
-        playerList.setAdapter(adapter);
-        players.add(new Player("1","1"));
-        players.add(new Player("2","2"));
-        players.add(new Player("3","3"));
-        players.add(new Player("4","4"));
-        pos = playerList.getCount();
+
+        Bundle arguments = getIntent().getExtras();
+        table = arguments.getString("nameGame");
+
+        firstName = (EditText)findViewById(R.id.firstName);
+        secondName = (EditText)findViewById(R.id.secondName);
+        addBtn = (Button)findViewById(R.id.addBtn);
+        lockBtn = (Button)findViewById(R.id.lockBtn);
+
+        dbAdapter = new DatabaseAdapter(this, table);
+        dbAdapter.open();
+
+        playerList = findViewById(R.id.playerList);
+        //final PlayerAdapter adapter = new PlayerAdapter(this, R.layout.list_item, players);
+        //playerList.setAdapter(adapter);
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    if (firstName.getText().length() != 0 || secondName.getText().length() != 0) {
-                        players.add(new Player(firstName.getText().toString(), secondName.getText().toString()));
-                    }
-                    adapter.notifyDataSetChanged();
-                    firstName.setText(null);
-                    secondName.setText(null);
-                    firstName.requestFocus();
+                Player player =  new Player(pos, firstName.getText().toString(), secondName.getText().toString());
+                dbAdapter.insertPlayer(player);
+                players = dbAdapter.getPlayers();
+
+                adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, players);
+                        //dbAdapter.close();
+
+                playerList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                firstName.setText(null);
+                secondName.setText(null);
+                firstName.requestFocus();
+                pos = players.size();
 
 
             }
@@ -70,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ACTION);
-                intent.putExtra("obj", shuffleList.get(position));
+                intent.putExtra("position", position);
+                intent.putExtra("table", table);
                 startActivity(intent);
             }
         });
@@ -80,10 +98,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void okClicked(){
         shuffleList = fisherArray(players);
-        EditText fn = (EditText)findViewById(R.id.firstName);
-        fn.setVisibility(View.INVISIBLE);
+        for(int i = 0 ; i < shuffleList.size(); i++)
+        {
+            Player target = shuffleList.get(i);
+            dbAdapter.insertTarget(target,(i+1));
+        }
+        firstName.setVisibility(View.INVISIBLE);
+        secondName.setVisibility(View.INVISIBLE);
+        dbAdapter.close();
     }
-    static ArrayList fisherArray(ArrayList array){
+    static List<Player> fisherArray(List<Player> array){
         Random rnd = new Random();
         for(int i = array.size()-1; i>=1; i-- )
         {
@@ -95,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             else {
                 j = rnd.nextInt(i - 1) + 1;
             }
-            Object tmp = array.get(i);
+            Player tmp = array.get(i);
             array.set(i,array.get(j));
             array.set(j,tmp);
 
@@ -107,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
     void saveData(){
         sPref = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
-        
+
     }
 
 

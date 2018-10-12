@@ -10,13 +10,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerAdapter extends ArrayAdapter<Player> {
     private LayoutInflater inflater;
     private int layout;
-    private ArrayList<Player> playerList;
+    private List<Player> playerList;
 
-    PlayerAdapter(Context context, int resource, ArrayList<Player> players){
+    PlayerAdapter(Context context, int resource, List<Player> players){
         super(context,resource,players);
         this.playerList = players;
         this.layout = resource;
@@ -44,17 +45,17 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
         else {
             viewHolder = (ViewHolder)convertView.getTag();
         }
-        final Player player = playerList.get(position);
+        Player player = playerList.get(position);
         viewHolder.firstNameView.setText(player.getFirstName());
         viewHolder.secondNameView.setText(player.getSecondName());
 
-        viewHolder.delButton.setOnClickListener(new View.OnClickListener() {
+        /*viewHolder.delButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 playerList.remove(player);
                 notifyDataSetChanged();
             }
-        });
+        });*/
         return convertView;
     }
 }

@@ -4,4 +4,5 @@
     <string name="unlock">Unlock</string>
     <string name="addplayer">Add player</string>
     <string name="shuffle">Shuffle</string>
+    <string name="keyGame">game</string>
 </resources>

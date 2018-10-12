@@ -3,16 +3,18 @@ package com.example.moxpoc.kpg1;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Player implements Parcelable {
+public class Player  {
+    private long id;
     private String firstName;
     private String secondName;
 
-    public static final Creator<Player> CREATOR = new Creator<Player>() {
+   /* public static final Creator<Player> CREATOR = new Creator<Player>() {
         @Override
         public Player createFromParcel(Parcel source) {
+            long id = source.readLong();
             String firstName = source.readString();
-            String secondname = source.readString();
-            return new Player(firstName,secondname);
+            String secondName = source.readString();
+            return new Player(id,firstName,secondName);
 
         }
 
@@ -20,11 +22,16 @@ public class Player implements Parcelable {
         public Player[] newArray(int size) {
             return new Player[size];
         }
-    };
+    };*/
 
-    public Player(String firstName, String secondName){
+    Player(long id, String firstName, String secondName){
+        this.id = id;
         this.firstName = firstName;
         this.secondName = secondName;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getFirstName() {
@@ -42,7 +49,12 @@ public class Player implements Parcelable {
     public void setSecondName(String secondName) {
         this.secondName = secondName;
     }
+
     @Override
+    public String toString(){
+        return this.firstName + " " + this.secondName;
+    }
+  /*  @Override
     public int describeContents(){
         return 0;
     }
@@ -50,5 +62,5 @@ public class Player implements Parcelable {
     public void writeToParcel(Parcel parcel, int flags){
         parcel.writeString(firstName);
         parcel.writeString(secondName);
-    }
+    }*/
 }
