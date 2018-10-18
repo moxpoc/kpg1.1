@@ -100,8 +100,9 @@ public class DatabaseAdapter {
 
     public Player getPlayer(long id){
         Player player = null;
-        String query = String.format("SELECT firstName, secondName FROM %s WHERE %s=?", table, DatabaseHelper.COLUMN_ID);
-        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(id)});
+        String query = ("SELECT * FROM " + table + " WHERE "
+                + DatabaseHelper.COLUMN_ID + "=" + id);
+        Cursor cursor = database.rawQuery(query, null);
         if(cursor.moveToFirst()){
             String firstName = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_FNAME));
             String secondName = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_SNAME));

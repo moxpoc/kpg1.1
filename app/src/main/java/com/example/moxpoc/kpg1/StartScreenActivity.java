@@ -10,6 +10,7 @@ public class StartScreenActivity extends AppCompatActivity {
     Button newGameButton, myTargetsButton, myGamesButton;
     public final static String NAME_ACTION = "android.intent.action.START_CREATE_GAME_ACTIVITY";
     public static final String MY_GAME_ACTION = "android.intent.action.START_MY_GAMES_ACTIVITY";
+    public static final String MY_TARGET_ACTION = "android.intent.action.START_MY_TARGETS_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +33,9 @@ public class StartScreenActivity extends AppCompatActivity {
         myTargetsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MY_GAME_ACTION);
+                Intent intent = new Intent(MY_TARGET_ACTION);
                 String targets = "target";
-               // intent.putExtra("act", targets);
+                intent.putExtra("act", targets);
                 startActivity(intent);
             }
         });

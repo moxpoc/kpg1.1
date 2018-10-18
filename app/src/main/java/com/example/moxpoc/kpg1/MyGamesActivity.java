@@ -24,9 +24,6 @@ public class MyGamesActivity extends AppCompatActivity {
         myList = findViewById(R.id.myGamesList);
         Bundle arguments  = getIntent().getExtras();
         String key = arguments.getString("act");
-        if (key == "target"){
-            showTargets();
-        }
         if(key.equals(game)){
             tables = showGames();
             adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tables);
@@ -49,9 +46,5 @@ public class MyGamesActivity extends AppCompatActivity {
         DatabaseAdapter dbAdapter = new DatabaseAdapter(this);
         dbAdapter.open();
         return  dbAdapter.getTables();
-    }
-
-    public void showTargets(){
-
     }
 }

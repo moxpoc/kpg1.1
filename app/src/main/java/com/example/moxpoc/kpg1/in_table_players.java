@@ -12,7 +12,7 @@ import java.util.List;
 
 public class in_table_players extends AppCompatActivity {
 
-    public static final String ACTION = "com.moxpoc.START_TARGET_ACTIVITY";
+    public static final String ACTION = "com.moxpoc.action.START_TARGET_ACTIVITY";
 
     ListView playerList;
     List<Player> players;
