@@ -5,12 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TargetActivity"
-    tools:layout_editor_absoluteY="81dp">
+    tools:context=".Target2Activity">
 
     <ImageView
-        android:id="@+id/targetImageView"
-        android:layout_width="match_parent"
+        android:id="@+id/scanTargetImageView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -22,7 +21,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/targetName"
+        android:id="@+id/scoreText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/scanTargetImageView"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Счет 0"/>
+
+    <TextView
+        android:id="@+id/scanTargetName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -31,5 +42,5 @@
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/targetImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/scanTargetImageView" />
 </android.support.constraint.ConstraintLayout>

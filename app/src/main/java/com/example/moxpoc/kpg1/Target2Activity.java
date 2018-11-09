@@ -19,30 +19,28 @@ import java.util.Hashtable;
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
 
-public class TargetActivity extends AppCompatActivity {
-    int WIDTH;
+public class Target2Activity extends AppCompatActivity {
+    int WIDTH = 800;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_target);
+        setContentView(R.layout.activity_target2);
         Bundle arguments = getIntent().getExtras();
         String table = arguments.getString("table");
-        DatabaseAdapter dbAdapter = new DatabaseAdapter(this, table, "kpg.db");
+        DatabaseAdapter dbAdapter = new DatabaseAdapter(this, table, "myScan.db");
         dbAdapter.open();
-        Player target, player;
-        TextView targetName = findViewById(R.id.targetName);
-        target = dbAdapter.getTarget((arguments.getInt("position")+1));
-        player = dbAdapter.getPlayer((arguments.getInt("position")+1));
-        dbAdapter.close();
-        JsonTargetHelper jsonTargetHelper = new JsonTargetHelper(player,target, table);
+        TextView targetName = findViewById(R.id.scanTargetName);
+        TextView score = findViewById(R.id.scoreText);
+        JsonTargetHelper jsonTargetHelper = dbAdapter.getJsonTarget(1);
 
         Moshi moshi = new Moshi.Builder().build();
         JsonAdapter<JsonTargetHelper> jsonAdapter = moshi.adapter(JsonTargetHelper.class);
         String json = jsonAdapter.toJson(jsonTargetHelper);
 
         targetName.setText(jsonTargetHelper.getNextText());
-        ImageView imageView = findViewById(R.id.targetImageView);
-        WIDTH = imageView.getWidth();
+        score.setText(("Счет " + dbAdapter.getScore()));
+
+        ImageView imageView = findViewById(R.id.scanTargetImageView);
         try{
             Bitmap bitmap = encodeAsBitmap(json);
             imageView.setImageBitmap(bitmap);

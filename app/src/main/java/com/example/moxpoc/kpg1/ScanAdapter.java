@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder> {
+public class ScanAdapter extends RecyclerView.Adapter<ScanAdapter.ViewHolder> {
     public static final String ACTION = "com.moxpoc.action.START_TARGET_ACTIVITY";
     public static final String ACTION_GAMES = "android.intent.action.START_IN_TABLES_PLAYERS";
 
@@ -21,63 +21,40 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
     private List<String> games;
     private String table;
 
-    PlayerAdapter(Context context, List<Player> players, String table){
+    ScanAdapter(Context context, List<Player> players, String table){
         this.playerList = players;
         this.inflater = LayoutInflater.from(context);
         this.table = table;
     }
 
-    PlayerAdapter(Context context, List<String> games){
+    ScanAdapter(Context context, List<String> games){
         this.games = games;
         this.inflater = LayoutInflater.from(context);
     }
     @Override
-    public PlayerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public ScanAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = inflater.inflate(R.layout.list_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final PlayerAdapter.ViewHolder holder, int position){
-        if(playerList != null){
-            Player player = playerList.get(position);
-            holder.firstNameView.setText(player.getFirstName());
-            holder.secondNameView.setText(player.getSecondName());
-
-            holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(ACTION);
-                    intent.putExtra("position", holder.getAdapterPosition());
-                    intent.putExtra("table", table);
-                    inflater.getContext().startActivity(intent);
-                }
-            });
-        }
-        if(games != null){
+    public void onBindViewHolder(final ScanAdapter.ViewHolder holder, int position){
             final String game = games.get(position);
             holder.firstNameView.setText(game);
 
             holder.linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(ACTION_GAMES);
+                    Intent intent = new Intent(inflater.getContext(), Target2Activity.class);
                     intent.putExtra("table", game);
                     inflater.getContext().startActivity(intent);
                 }
             });
-        }
-
-
     }
 
     @Override
     public int getItemCount(){
-        if(playerList != null) {
-            return playerList.size();
-        } else {
-            return games.size();
-        }
+        return games.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

@@ -3,6 +3,7 @@ package com.example.moxpoc.kpg1;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,9 +15,9 @@ public class in_table_players extends AppCompatActivity {
 
     public static final String ACTION = "com.moxpoc.action.START_TARGET_ACTIVITY";
 
-    ListView playerList;
+    RecyclerView playerList;
     List<Player> players;
-    ArrayAdapter adapter;
+    PlayerAdapter adapter;
     DatabaseAdapter dbAdapter;
     String table;
     @Override
@@ -26,17 +27,17 @@ public class in_table_players extends AppCompatActivity {
 
         Bundle arguments  = getIntent().getExtras();
         table = arguments.getString("table");
-        dbAdapter = new DatabaseAdapter(this, table);
+        dbAdapter = new DatabaseAdapter(this, table, "kpg.db");
         dbAdapter.open();
         playerList = findViewById(R.id.myPlayersList);
         players = dbAdapter.getPlayers();
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, players);
+        adapter = new PlayerAdapter(this, players, table);
 
         playerList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         dbAdapter.close();
-
+/*
         playerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -45,6 +46,6 @@ public class in_table_players extends AppCompatActivity {
                 intent.putExtra("table", table);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 }

@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.security.PublicKey;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private static final String DB_NAME = "kpg.db";
     private static final int SCHEMA = 1;
     String TABLE;
     public static final String COLUMN_ID = "_id";
@@ -15,9 +14,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_SNAME = "secondName";
     public static final String COLUMN_FNTARGET = "firstNameTarget";
     public static final String COLUMN_SNTARGET = "secondNameTarget";
+    public static final String COLUMN_CURRENT = "current";
+    public static final String COLUMN_NEXT = "next";
+    public static final String COLUMN_SCORE = "score";
 
-    public DatabaseHelper(Context context){
-        super(context,DB_NAME,null, SCHEMA);
+    public DatabaseHelper(Context context, String database){
+        super(context,database,null, SCHEMA);
     }
 
     @Override
@@ -27,7 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
-        db.execSQL("DROP TABLE IF EXISTS" + TABLE);
+        db.execSQL("DROP DATABASE " + db);
         onCreate(db);
     }
 }

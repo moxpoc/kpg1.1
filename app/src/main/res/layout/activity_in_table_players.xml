@@ -7,12 +7,36 @@
     android:orientation="vertical"
     tools:context=".in_table_players">
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/myPlayersList"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinatorMainTablePlayers"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.design.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBarTablePlayers"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_gravity="bottom"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabAlignmentMode="end" />
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/faBTablePlayers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_view"
+            app:layout_anchor="@id/bottomAppBarTablePlayers" />
+    </android.support.design.widget.CoordinatorLayout>
 </android.support.constraint.ConstraintLayout>

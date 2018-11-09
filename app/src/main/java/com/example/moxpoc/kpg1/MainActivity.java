@@ -2,8 +2,9 @@ package com.example.moxpoc.kpg1;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,26 +12,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    final static String nameVariableKey = "NAME_VARIABLE";
     public static final String ACTION = "com.moxpoc.action.START_TARGET_ACTIVITY";
     List<Player> players;
-    ListView playerList;
+    RecyclerView playerList;
     List<Player> shuffleList;
-    ArrayAdapter<Player> adapter;
+    PlayerAdapter adapter;
 
     EditText firstName, secondName;
     Button addBtn,lockBtn;
 
     private DatabaseAdapter dbAdapter;
     int pos = 0;
-    boolean tmblr = true;
     String table;
     SharedPreferences sPref;
     @Override
@@ -46,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         addBtn = (Button)findViewById(R.id.addBtn);
         lockBtn = (Button)findViewById(R.id.lockBtn);
 
-        dbAdapter = new DatabaseAdapter(this, table);
+        dbAdapter = new DatabaseAdapter(this, table, "kpg.db");
         dbAdapter.open();
 
         playerList = findViewById(R.id.playerList);
@@ -60,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 dbAdapter.insertPlayer(player);
                 players = dbAdapter.getPlayers();
 
-                adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, players);
+                adapter = new PlayerAdapter(MainActivity.this, players, table);
                         //dbAdapter.close();
 
                 playerList.setAdapter(adapter);
@@ -83,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        playerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*playerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ACTION);
@@ -91,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("table", table);
                 startActivity(intent);
             }
-        });
+        });*/
 
     }
 
@@ -109,16 +106,11 @@ public class MainActivity extends AppCompatActivity {
     }
     static List<Player> fisherArray(List<Player> array){
         Random rnd = new Random();
+        int j;
         for(int i = array.size()-1; i>=1; i-- )
         {
-            int j;
-            if (i==1)
-            {
-                j = 0;
-            }
-            else {
-                j = rnd.nextInt(i - 1) + 1;
-            }
+
+            j = rnd.nextInt(i);
             Player tmp = array.get(i);
             array.set(i,array.get(j));
             array.set(j,tmp);
@@ -128,10 +120,11 @@ public class MainActivity extends AppCompatActivity {
         return array;
     }
 
-    void saveData(){
-        sPref = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor ed = sPref.edit();
-
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(MainActivity.this, StartScreenActivity.class);
+        startActivity(intent);
+        super.onBackPressed();
     }
 
 

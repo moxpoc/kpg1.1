@@ -3,20 +3,20 @@ package com.example.moxpoc.kpg1;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MyGamesActivity extends AppCompatActivity {
 
-    ListView myList;
+    RecyclerView myList;
     static String game = "game";
-    List<String> tables;
-    ArrayAdapter adapter;
+    ArrayList<String> tables;
+    PlayerAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,12 +26,12 @@ public class MyGamesActivity extends AppCompatActivity {
         String key = arguments.getString("act");
         if(key.equals(game)){
             tables = showGames();
-            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tables);
+            adapter = new PlayerAdapter(this, tables);
             myList.setAdapter(adapter);
 
         }
 
-        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       /* myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String table = adapter.getItem(position).toString();
@@ -39,11 +39,11 @@ public class MyGamesActivity extends AppCompatActivity {
                 intent.putExtra("table", table);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
-    public List<String> showGames(){
-        DatabaseAdapter dbAdapter = new DatabaseAdapter(this);
+    public ArrayList<String> showGames(){
+        DatabaseAdapter dbAdapter = new DatabaseAdapter(this, "kpg.db");
         dbAdapter.open();
         return  dbAdapter.getTables();
     }
