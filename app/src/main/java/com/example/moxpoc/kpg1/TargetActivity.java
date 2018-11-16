@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.moxpoc.kpg1.Adapters.DatabaseAdapter;
+import com.example.moxpoc.kpg1.Helpers.JsonTargetHelper;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -42,7 +44,7 @@ public class TargetActivity extends AppCompatActivity {
 
         targetName.setText(jsonTargetHelper.getNextText());
         ImageView imageView = findViewById(R.id.targetImageView);
-        WIDTH = imageView.getWidth();
+        WIDTH = 800;
         try{
             Bitmap bitmap = encodeAsBitmap(json);
             imageView.setImageBitmap(bitmap);

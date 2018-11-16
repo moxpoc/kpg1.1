@@ -5,15 +5,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
+import com.example.moxpoc.kpg1.Adapters.DatabaseAdapter;
+import com.example.moxpoc.kpg1.Adapters.ScanAdapter;
+import com.example.moxpoc.kpg1.Helpers.JsonTargetHelper;
+import com.example.moxpoc.kpg1.Helpers.SwipeHelper;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.squareup.moshi.JsonAdapter;
@@ -41,7 +41,9 @@ public class MyTargetsActivity extends AppCompatActivity {
         targets = showGames();
         arrayAdapter = new ScanAdapter(MyTargetsActivity.this, targets);
         scannedResults.setAdapter(arrayAdapter);
-        dbAdapter.close();
+        SwipeHelper callback = new SwipeHelper(arrayAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(scannedResults);
         addTargetScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,16 +56,7 @@ public class MyTargetsActivity extends AppCompatActivity {
                 integrator.initiateScan();
 
             }
-        });/*
-        scannedResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String table = arrayAdapter.getItem(position).toString();
-                Intent intent = new Intent(MyTargetsActivity.this, Target2Activity.class);
-                intent.putExtra("table", table);
-                startActivity(intent);
-            }
-        });*/
+        });
     }
 
 
@@ -107,7 +100,10 @@ public class MyTargetsActivity extends AppCompatActivity {
                 targets = showGames();
                 arrayAdapter = new ScanAdapter(MyTargetsActivity.this, targets );
                 scannedResults.setAdapter(arrayAdapter);
-                arrayAdapter.notifyDataSetChanged();
+
+                SwipeHelper callback = new SwipeHelper(arrayAdapter);
+                ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+                touchHelper.attachToRecyclerView(scannedResults);
             }
         } else{
             super.onActivityResult(requestCode,resultCode,intent);
@@ -117,7 +113,6 @@ public class MyTargetsActivity extends AppCompatActivity {
     }
 
     public ArrayList<String> showGames(){
-        dbAdapter.open();
         return  dbAdapter.getTables();
     }
 }

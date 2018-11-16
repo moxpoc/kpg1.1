@@ -1,13 +1,13 @@
 package com.example.moxpoc.kpg1;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+
+import com.example.moxpoc.kpg1.Adapters.DatabaseAdapter;
+import com.example.moxpoc.kpg1.Adapters.TablesAdapter;
+import com.example.moxpoc.kpg1.Helpers.SwipeHelper;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,7 @@ public class MyGamesActivity extends AppCompatActivity {
     RecyclerView myList;
     static String game = "game";
     ArrayList<String> tables;
-    PlayerAdapter adapter;
+    TablesAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,20 +26,14 @@ public class MyGamesActivity extends AppCompatActivity {
         String key = arguments.getString("act");
         if(key.equals(game)){
             tables = showGames();
-            adapter = new PlayerAdapter(this, tables);
+            adapter = new TablesAdapter(this, tables);
             myList.setAdapter(adapter);
 
-        }
+            SwipeHelper callback = new SwipeHelper(adapter);
+            ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+            touchHelper.attachToRecyclerView(myList);
 
-       /* myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String table = adapter.getItem(position).toString();
-                Intent intent = new Intent(MyGamesActivity.this, in_table_players.class);
-                intent.putExtra("table", table);
-                startActivity(intent);
-            }
-        });*/
+        }
     }
 
     public ArrayList<String> showGames(){

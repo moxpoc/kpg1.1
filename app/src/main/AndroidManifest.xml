@@ -14,7 +14,7 @@
 
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AnotherTheme">
         <activity android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -65,7 +65,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Target2Activity"></activity>
+        <activity android:name=".Target2Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.START_TARGET_2_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

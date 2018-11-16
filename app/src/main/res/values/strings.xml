@@ -1,8 +1,13 @@
 <resources>
     <string name="app_name">kpg1</string>
-    <string name="lock">Lock</string>
-    <string name="unlock">Unlock</string>
-    <string name="addplayer">Add player</string>
-    <string name="shuffle">Shuffle</string>
-    <string name="keyGame">game</string>
+    <string name="titleGame">Привет!</string>
+    <string name="nameGame">Название игры</string>
+    <string name="applyNameGameBtn">Начнем</string>
+    <string name="newGameBtn">Новая игра</string>
+    <string name="myGamesBtn">Мои игры</string>
+    <string name="myTargetsBtn">Мои цели</string>
+    <string name="firstName">Имя</string>
+    <string name="secondName">Фамилия</string>
+    <string name="okBtn">ok</string>
+    <string name="decBtn">Отмена</string>
 </resources>

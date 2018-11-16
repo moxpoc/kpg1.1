@@ -1,11 +1,14 @@
-package com.example.moxpoc.kpg1;
+package com.example.moxpoc.kpg1.Adapters;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.ListView;
+
+import com.example.moxpoc.kpg1.Helpers.DatabaseHelper;
+import com.example.moxpoc.kpg1.Helpers.JsonTargetHelper;
+import com.example.moxpoc.kpg1.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,23 +19,14 @@ public class DatabaseAdapter {
     private SQLiteDatabase database;
     static String table = "test0";
 
-    DatabaseAdapter(Context context, String table, String dBase){
+    public DatabaseAdapter(Context context, String table, String dBase){
         dbHelper = new DatabaseHelper(context.getApplicationContext(),dBase);
         this.table = table;
     }
 
-    DatabaseAdapter(Context context, String dBase){
+    public DatabaseAdapter(Context context, String dBase){
         dbHelper = new DatabaseHelper(context.getApplicationContext(),dBase);
     }
-
-  /*  DatabaseAdapter(Context context, boolean check){
-        dbHelper = new DatabaseHelper(context.getApplicationContext(),"myScan.db");
-    }
-
-    DatabaseAdapter(Context context, String table, boolean check){
-        dbHelper = new DatabaseHelper(context.getApplicationContext(),"myScan.db");
-        this.table = table;
-    }*/
 
     public DatabaseAdapter open(){
         database = dbHelper.getWritableDatabase();
@@ -202,6 +196,17 @@ public class DatabaseAdapter {
         contentValues.put(DatabaseHelper.COLUMN_FNAME, player.getFirstName());
         contentValues.put(DatabaseHelper.COLUMN_SNAME, player.getSecondName());
         return database.update(table, contentValues, whereClause,null);
+    }
+
+    public long delete(long userId){
+
+        String whereClause = "_id = ?";
+        String[] whereArgs = new String[]{String.valueOf(userId)};
+        return database.delete(table, whereClause, whereArgs);
+    }
+
+    public void dropTable(String table){
+        database.execSQL("DROP TABLE IF EXISTS " + table + ";");
     }
 
     public long updateScan(String current, String next){

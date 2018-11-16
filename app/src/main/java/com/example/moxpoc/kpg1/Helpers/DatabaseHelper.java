@@ -1,14 +1,11 @@
-package com.example.moxpoc.kpg1;
+package com.example.moxpoc.kpg1.Helpers;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.security.PublicKey;
-
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int SCHEMA = 1;
-    String TABLE;
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_FNAME = "firstName";
     public static final String COLUMN_SNAME = "secondName";

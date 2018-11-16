@@ -14,8 +14,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Привет!
-        Придумай имя твоей игре"
+        android:text= "@string/titleGame"
         android:textAlignment="center"
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/nameLayout"
@@ -25,7 +24,7 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/nameLayout"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="77dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -33,19 +32,19 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498">
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/nameGame"
-            android:layout_width="200dp"
-            android:layout_height="56dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+
             android:imeOptions="actionDone"
             android:singleLine="true"
-            android:hint="Название игры"/>
+            android:hint="@string/nameGame"
+            />
     </android.support.design.widget.TextInputLayout>
 
     <Button
@@ -58,5 +57,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameLayout"
-        android:text="Начнём!"/>
+        android:text="@string/applyNameGameBtn"/>
 </android.support.constraint.ConstraintLayout>

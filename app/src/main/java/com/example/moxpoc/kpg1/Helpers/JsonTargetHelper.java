@@ -1,16 +1,8 @@
-package com.example.moxpoc.kpg1;
+package com.example.moxpoc.kpg1.Helpers;
 
-import com.squareup.moshi.Json;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.Hex;
+import com.example.moxpoc.kpg1.Player;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
-import org.springframework.security.crypto.keygen.KeyGenerators;
-
-import javax.crypto.Cipher;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 
 public class JsonTargetHelper {
     private String current;
@@ -26,7 +18,7 @@ public class JsonTargetHelper {
         this.game = game;
     }
 
-    JsonTargetHelper(){
+    public JsonTargetHelper(){
     }
 
     public JsonTargetHelper(String current, String next, String game){

@@ -6,7 +6,7 @@ public class Player  {
     private String firstName;
     private String secondName;
 
-    Player(long id, String firstName, String secondName){
+    public Player(long id, String firstName, String secondName){
         this.id = id;
         this.firstName = firstName;
         this.secondName = secondName;
